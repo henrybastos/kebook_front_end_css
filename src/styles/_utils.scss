@@ -1,0 +1,72 @@
+$colorWhite: #F8F8F8;
+
+$colorGrayLightest: #E6E6E6;
+$colorGrayLighter: #D3D3D3;
+$colorGrayLight: #C0C0C0;
+$colorGray: #ACACAC;
+
+$colorRedLightest: #FBA293;
+$colorRedLighter: #EB5252;
+$colorRedLight: #E03b3B;
+$colorRed: #E92727;
+$colorRedDark: #BE2323;
+$colorRedDarker: #a32525;
+
+$colorBlueLightest: #72BEFC;
+$colorBlueDark: #1D1E35;
+
+$colorGreenLighest: #88FCA0;
+
+$colorPinkLighest: #FFB4ED;
+
+@mixin NunitoBlank ($font-size, $font-weight) {
+  background: none;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  font-family: 'Nunito';
+  font-weight: $font-weight;
+  font-size: $font-size;
+  transition: all ease 250ms;
+}
+
+@mixin PseudoBlurredBG {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-40%, -40%);
+  width: 150%;
+  height: 150%;
+  background: rgba(255, 255, 255, 0.25);
+  opacity: 0;
+  filter: blur(20px);
+  transition: all ease 200ms;
+}
+
+@keyframes FadeIn {
+  0% {
+    transform: translateY(-20px);
+    filter: blur(20px);
+    opacity: 0;
+  }
+  
+  100% {
+    transform: translateY(0px);
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+  }
+}

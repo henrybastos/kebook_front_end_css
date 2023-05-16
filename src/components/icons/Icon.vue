@@ -5,8 +5,9 @@
      viewBox="0 0 24 24"
      :aria-labelledby="iconName"
      role="presentation"
+     :alt="iconAlt"
+     :id="iconName"
    >
-     <title :id="iconName" lang="en">{{ iconName }} icon</title>
      <g :fill="fillColor" :stroke="strokeColor" :stroke-width="strokeWidth">
       
       <template v-if="iconName == 'iconMedal'">
@@ -29,8 +30,14 @@
       <template v-if="iconName == 'iconPlay'">
          <g transform="matrix(0.3998347,0,0,0.3869,83.8,-209.4)" :stroke-width="strokeWidth * 2.2">
             <path d="m -207.09954,570.04357 c 0,-8.0218 0,-12.0356 2.41559,-14.5261 2.4128,-2.4934 6.3014,-2.4934 14.073,-2.4934 h 21.9847 c 7.7716,0 11.6601,0 14.073,2.4934 2.4155,2.4905 2.4155,6.5043 2.4155,14.5261 v 2.8366 c 0,8.0219 0,12.0356 -2.4155,14.5262 -2.4129,2.4933 -6.3014,2.4933 -14.073,2.4933 h -21.9847 c -7.7716,0 -11.6602,0 -14.073,-2.4933 -2.41559,-2.4906 -2.41559,-6.5043 -2.41559,-14.5262 z" />
-
             <path d="m -175.18538,598.13293 c 0,2.1364 -10.48431,8.18952 -12.33448,7.12132 -1.85018,-1.0682 -1.85018,-13.17443 0,-14.24263 1.85017,-1.0682 12.33448,4.98492 12.33448,7.12131 z" transform="translate(2.4277937,-26.671065)" />
+         </g>
+      </template>
+
+      <template v-if="iconName == 'iconX'">
+         <g>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
          </g>
       </template>
 
@@ -40,18 +47,20 @@
 
 <script setup lang="ts">
 withDefaults(defineProps<{
-   iconName: 'iconMedal' | 'iconDollar' | 'iconSmile' | 'iconPlay',
+   iconName: 'iconMedal' | 'iconDollar' | 'iconSmile' | 'iconPlay' | 'iconX',
    fillColor: string,
    strokeColor: string,
    strokeWidth: number,
    size: string | number,
    iconColor: string
+   iconAlt: string,
 }>(), {
    fillColor: 'none',
    strokeColor: 'black',
    strokeWidth: 1.1,
    size: '24px',
    iconName: 'iconMedal', 
-   iconColor: 'black'
+   iconColor: 'black',
+   iconAlt: 'Icon'
 });
 </script>

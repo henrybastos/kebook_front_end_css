@@ -1,12 +1,8 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, inject } from 'vue';
 import Header from './Header.vue';
 
-// window.onscroll = () => {
-   // console.log(document.querySelector('#app').style.height);
-   // console.log(window.outerHeight);
-   // document.querySelector('#scroll-thumb').style.transform = `translateY(${window.innerHeight * (window.scrollY)}px)`;
-// }
+const currentBreakpoint = inject('currentBreakpoint');
 
 let screenHeight = window.innerHeight;
 let screenWidth = window.innerWidth;
@@ -19,20 +15,6 @@ let discplacementY;
 
 
 onMounted(() => {
-   const observer = new IntersectionObserver((entries) => {
-      entries.forEach((target, isIntersecting) => {
-         if (isIntersecting) {
-            console.log(target);
-            target.classList.remove('hidden');
-            target.classList.add('visible');
-         }
-      })
-   }, { threshold: 0.75 });
-
-   document.querySelectorAll('.hidden').forEach(el => {
-      observer.observe(el);
-   });
-
    bgTopCover = document.querySelector('#bg-top-cover');
    rocketTopCover = document.querySelector('#rocket-top-cover');
 })
@@ -49,9 +31,8 @@ window.onmousemove = (e) => {
 
 <template>   
    <div>
-      <!-- <div id="scroll-thumb"></div> -->
       <img id="rocket-top-cover" src="/illustra-home-1.png"/>
-      <section id="homepage-top">
+      <section id="homepage-top" :class="currentBreakpoint">
          <Header />
          <img id="bg-top-cover" src="/back-top-home.png"/>
    
@@ -75,47 +56,96 @@ window.onmousemove = (e) => {
    </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
    @import '../styles/utils';
 
-   // #scroll-thumb {
-   //    position: absolute;
-   //    width: 10px;
-   //    height: 30px;
-   //    background: red;
-   // }
-
-   .hidden {
-      // opacity: 0;
-      animation: none;
-   }
-   
-   .visible {
-      animation: FadeIn 1200ms ease;
-      opacity: 1;
-   }
-
-   #app {
-      #rocket-top-cover {
-         height: 350px;
-         position: absolute;
-         top: 7%;
-         left: 50%;
-         // transform: translate(-50%, -50%);
-      }
+   #rocket-top-cover {
+      height: 350px;
+      position: absolute;
+      top: 7%;
+      left: 50%;
+      animation: FadeIn ease 1000ms;
+      // transform: translate(-50%, -50%);
    }
 
    section#homepage-top {
       display: flex;
       flex-flow: column nowrap;
       justify-content: space-between;
-      align-items: flex-start;
       overflow: hidden;
       height: 463px;
       position: relative;
 
+      &.lg {
+         align-items: flex-start;
+      }
+      
+      &.sm {
+         align-items: center;
+
+         #cover-heading {
+            h2 {
+               font-size: 48px;
+               line-height: 60px;
+               padding: 0;
+            }
+         }
+
+         #cover-btns {
+            padding: 0;
+            margin: 0;
+            display: inline-flex;
+            place-content: center;
+
+            button {
+               width: calc(50% - 20px);
+               font-size: 16px;
+               padding: 0;
+            }
+         }
+
+         #cover-text {
+            font-size: 16px;
+            width: calc(100% - 60px);
+            padding: 0;
+            text-align: justify;
+         }
+      }
+
+      &.xs {
+         align-items: center;
+
+         #cover-heading {
+            h2 {
+               font-size: 48px;
+               line-height: 60px;
+               padding: 0;
+            }
+         }
+
+         #cover-btns {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-between;
+            align-items: center;
+            height: 300px;
+            margin: 0;
+
+            button {
+               width: calc(100% - 55px);
+            }
+         }
+
+         #cover-text {
+            font-size: 16px;
+            width: calc(100% - 60px);
+            padding: 0;
+            text-align: justify;
+         }
+      }
+
       #bg-top-cover {
-         width: 125%;
+         min-width: 125%;
          position: absolute;
          top: -12.5%;
          left: -12.5%;
@@ -126,6 +156,7 @@ window.onmousemove = (e) => {
       #cover-heading {
          width: 100%;
          padding-left: 8%;
+         animation: FadeTopIn ease 1000ms;
          
          h2 {
             margin: 0;
@@ -149,11 +180,13 @@ window.onmousemove = (e) => {
          font-size: 20px;
          padding-left: 8%;
          width: 650px;
+         animation: FadeIn ease 1000ms;
       }
 
       #cover-btns {
          width: 100%;
          margin-left: 8%;
+         animation: FadeTopIn ease 1000ms;
 
          button {
             border: 0;
@@ -193,6 +226,7 @@ window.onmousemove = (e) => {
                color: $colorWhite;
                border: 2px solid $colorWhite;
                margin-right: 15px;
+               backdrop-filter: blur(10px);
                
                &:hover {
                   color: $colorBlueDark;
@@ -220,6 +254,7 @@ window.onmousemove = (e) => {
          height: 30px;
          margin: 10px 0;
          margin-left: 8%;
+         animation: FadeIn ease 1000ms;
 
          p {
             @include NunitoBlank(15px, 500);

@@ -1,6 +1,8 @@
 <script setup>
 import TopCover from './components/TopCover.vue';
 import Icon from './components/icons/Icon.vue';
+import { setBreakpoint } from './assets/Breakpoints.mjs'
+import { onMounted, provide, ref } from 'vue';
 
 const BOTTOM_COVER_ARTICLES = [
    {
@@ -24,13 +26,33 @@ const BOTTOM_COVER_ARTICLES = [
       details: 'Possua as ferramentas ideais para ensinar o que você ama'
    },
 ];
+
+const screenSubscribers = ref([]);
+const currentBreakpoint = ref('sm');
+const screenWidth = ref(0);
+
+provide('screenSubscribers', screenSubscribers);
+provide('currentBreakpoint', currentBreakpoint);
+provide('screenWidth', screenWidth);
+
+onMounted(() => {
+   screenWidth.value = window.innerWidth;
+   currentBreakpoint.value = setBreakpoint(screenWidth.value);
+});
+
+
+window.onresize = () => {
+   screenWidth.value = window.innerWidth;
+   currentBreakpoint.value = setBreakpoint(screenWidth.value);
+   screenSubscribers.value.forEach(sub => { sub() });
+}
 </script>
 
 <template>   
    <!-- <div id="scroll-thumb"></div> -->
-   <TopCover></TopCover>
+   <TopCover />
 
-   <div id="articles-container">
+   <div id="articles-container" :class="currentBreakpoint">
       <article 
          v-for="article of BOTTOM_COVER_ARTICLES"
          :key="article.icon"
@@ -49,11 +71,35 @@ const BOTTOM_COVER_ARTICLES = [
    @import './styles/utils';
 
    #articles-container {
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      margin: 30px;
+      display: grid;
+      width: calc(100% - 40px);
+      
+      &.lg {
+         // flex-flow: row nowrap;
+         // justify-content: space-evenly;
+         // align-items: center;
+         grid-template-rows: auto;
+         grid-template-columns: repeat(4, 1fr);
+         column-gap: 20px;
+         margin: 20px;
+      }
+      
+      &.sm {
+         grid-template-rows: repeat(2, 1fr);
+         grid-template-columns: repeat(2, 1fr);
+         column-gap: 20px;
+         row-gap: 20px;
+         margin: 20px;
+      }
 
+      &.xs {
+         grid-template-rows: repeat(4, 1fr);
+         grid-template-columns: 1fr;
+         row-gap: 20px;
+         margin: 20px;
+      }
+
+      
       article {
          font-family: 'Nunito';
          color: $colorBlueDark;
@@ -61,7 +107,8 @@ const BOTTOM_COVER_ARTICLES = [
          width: fit-content;
          box-sizing: border-box;
          padding: 20px;
-         width: calc(25% - 20px);
+         width: 100%;
+         animation: FadeTopIn ease 1000ms;
          // margin: 20px;
 
          &:nth-child(1) .icon::before { background-color: #FBA293; }

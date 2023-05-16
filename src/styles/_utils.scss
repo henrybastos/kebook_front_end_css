@@ -45,6 +45,18 @@ $colorPinkLighest: #FFB4ED;
 
 @keyframes FadeIn {
   0% {
+    filter: blur(20px);
+    opacity: 0;
+  }
+  
+  100% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes FadeTopIn {
+  0% {
     transform: translateY(-20px);
     filter: blur(20px);
     opacity: 0;
